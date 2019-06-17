@@ -1,13 +1,13 @@
-### webpack 源码解析
+# webpack 源码解析
 1. 代码来源于webpack 3.5.4。保持了 webpack 原有的代码结构。
 2. 只保留了与本例有关的代码，更容易理解webpack的整体架构及特点。
 3. 可以配合单步调试，梳理其流程
 4. 主要流程解析
 5. 关键代码注释
 
-### 主要流程解析
+# 主要流程解析
 
-##### webpack(options)
+## webpack(options)
 * 创建 compiler 实例
 * 通过 NodeEnvironmentPlugin 插件，为 compiler 增加读写文件的能力等
 * new WebpackOptionsApply().process(options, compiler); 这个就比较重要了，会在这里根据options注册一系列的插件。   
@@ -16,7 +16,7 @@ FunctionModulePlugin
 EntryOptionPlugin 处理Entry   
 CommonJsPlugin 使 webpack 支持解析 commonJs    
 
-##### Compiler
+## Compiler
 1. 先从构造函数看起
 ```javascript
 constructor() {
@@ -82,7 +82,7 @@ newCompilation 有一点需要注意一下，这时候会触发 compiler 的 com
 EntryOptionPlugin 会注册 SingleEntryPlugin 插件，在该插件内部注册了 make 事件   
 调用 compilation.addEntry 开始干活。  项目经理 compilation 该上场了
 
-##### Compilation
+## Compilation
 
 1. addEntry 开始工作的入口
 ```javascript
@@ -184,7 +184,7 @@ seal(callback) {
 ```
 > seal 方法中还会调用一大堆插件，对chunk等进行优化  
 
-##### NormalModuleFacotry
+## NormalModuleFacotry
 
 总结下来，NormalModuleFacotory 主要做了三项工作：   
 
@@ -234,7 +234,7 @@ createdModule = new NormalModule(
 6. create-module  
 7. module  
 
-##### NormalModule
+## NormalModule
 1. build
 ```javascript
 build(options, compilation, resolver, fs, callback) {
@@ -262,7 +262,7 @@ doBuild 中运行loader使用的是 [loader-runner](https://github.com/webpack/l
 
 parser.parse 解析模块的依赖，放入到 module.dependencies 数组中。数组中的每一项都是一个 Dependency 实例。  
 
-##### Parser
+## Parser
 
 在 webpack 中模块间的依赖关系如何表达的呢？
 
